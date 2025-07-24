@@ -19,8 +19,9 @@ import (
 
 // Client is a wrapper around a Kubernetes Interface
 type Client struct {
-	client    k8s.Interface
-	namespace string
+	client       k8s.Interface
+	namespace    string
+	Logtaillines int64
 }
 
 // NewClient takes in a ClientConfig and generates a new Client to interface with the
@@ -33,6 +34,11 @@ func NewClient(config types.ClientConfig) (*Client, error) {
 	cc, err := c.ClientConfig()
 	if err != nil {
 		return nil, errors.Wrapf(err, "building config from kube config located at %s", config.ConfigFile)
+	}
+
+	logtaillines := int64(100)
+	if config.LogTailLines != 0 {
+		logtaillines = config.LogTailLines
 	}
 
 	namespace := ""
@@ -49,7 +55,7 @@ func NewClient(config types.ClientConfig) (*Client, error) {
 		return nil, errors.Wrap(err, "building kubernetes client")
 	}
 
-	return &Client{client: client, namespace: namespace}, nil
+	return &Client{client: client, namespace: namespace, Logtaillines: logtaillines}, nil
 }
 
 // Pods takes a PodSelectors and returns an array of Kubernetes Pods based on those selectors
@@ -91,8 +97,8 @@ func (c *Client) Events(selectors types.EventSelectors) ([]corev1.Event, error) 
 
 // PodLogs grabs the logs for a specific Pod Container. If container is empty string, the default Pod
 // Container will be used.
-func (c *Client) PodLogs(pod corev1.Pod, container string) (string, error) {
-	req := c.client.CoreV1().Pods(pod.Namespace).GetLogs(pod.Name, &corev1.PodLogOptions{Container: container})
+func (c *Client) PodLogs(pod corev1.Pod, container string, logtaillines *int64) (string, error) {
+	req := c.client.CoreV1().Pods(pod.Namespace).GetLogs(pod.Name, &corev1.PodLogOptions{Container: container, TailLines: logtaillines})
 	podLogs, err := req.Stream()
 	if err != nil {
 		return "", errors.Wrap(err, "streaming log results")

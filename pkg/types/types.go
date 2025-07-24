@@ -1,4 +1,4 @@
-package types
+PodLogspackage types
 
 // PodSelectors represents what selectors to use when listing pods
 type PodSelectors struct {
@@ -19,6 +19,8 @@ type ClientConfig struct {
 	Namespace     string
 	Context       string
 	AllNamespaces bool
+	Verbose       bool
+	LogTailLines int64
 }
 
 // PodCondition is a wrapper around a Kubernetes Pod Condition
