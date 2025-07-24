@@ -1,4 +1,4 @@
-PodLogspackage types
+package types
 
 // PodSelectors represents what selectors to use when listing pods
 type PodSelectors struct {
