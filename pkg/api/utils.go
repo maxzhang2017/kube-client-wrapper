@@ -3,7 +3,7 @@ package api
 import (
 	"path/filepath"
 
-	"github.com/alecjacobs5401/kube-client-wrapper/pkg/types"
+	"github.com/maxzhang2017/kube-client-wrapper/pkg/types"
 	corev1 "k8s.io/api/core/v1"
 )
 

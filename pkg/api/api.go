@@ -4,7 +4,7 @@ import (
 	"bytes"
 	"io"
 
-	"github.com/alecjacobs5401/kube-client-wrapper/pkg/types"
+	"github.com/maxzhang2017/kube-client-wrapper/pkg/types"
 	"github.com/pkg/errors"
 	corev1 "k8s.io/api/core/v1"
 	k8sErrors "k8s.io/apimachinery/pkg/api/errors"

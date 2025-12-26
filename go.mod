@@ -1,4 +1,4 @@
-module github.com/alecjacobs5401/kube-client-wrapper
+module github.com/maxzhang2017/kube-client-wrapper
 
 go 1.14
 
